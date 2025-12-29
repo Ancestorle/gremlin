@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GREMDEV | Premium Web Developer & Designer</title>
+    
+    <!-- Google Fonts: Inter for that clean, international tech look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons for high-end icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-body: #050505;
+            --bg-card: #0f0f0f;
+            --accent: #3b82f6; /* Electric Blue */
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --text-main: #ffffff;
+            --text-dim: #a1a1aa;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: var(--transition);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #ffffff, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            transition: var(--transition);
+            border-bottom: 1px solid transparent;
+        }
+
+        nav.scrolled {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(15px);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            margin-bottom: 2.5rem;
+            max-width: 550px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            border: 1px solid var(--border);
+            color: white;
+            background: var(--glass);
+        }
+
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+        /* HERO IMAGE AREA */
+        .hero-image-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .profile-card {
+            width: 380px;
+            height: 480px;
+            background: var(--bg-card);
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            position: relative;
+            z-index: 5;
+            transition: var(--transition);
+        }
+
+        .profile-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Filter makes it look premium */
+            filter: contrast(1.1) brightness(0.9);
+        }
+
+        .profile-card:hover {
+            transform: rotateY(-5deg) rotateX(5deg);
+            border-color: var(--accent);
+        }
+
+        .glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            filter: blur(120px);
+            opacity: 0.15;
+            z-index: 1;
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about { padding: 10rem 0; }
+
+        .section-header { margin-bottom: 4rem; }
+        .section-header h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .section-header .line { width: 50px; height: 4px; background: var(--accent); }
+
+        .about-text {
+            font-size: 1.4rem;
+            color: var(--text-dim);
+            max-width: 800px;
+            line-height: 1.8;
+        }
+
+        /* --- SKILLS GRID --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .skill-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .skill-item:hover {
+            background: var(--glass);
+            border-color: var(--accent);
+            transform: translateY(-10px);
+        }
+
+        .skill-item i { margin-bottom: 1rem; color: var(--accent); }
+
+        /* --- PORTFOLIO --- */
+        .portfolio { padding-bottom: 10rem; }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 280px;
+            background: #1a1a1a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .project-card:hover .project-img img { transform: scale(1.1); }
+
+        .project-content { padding: 2rem; }
+        .project-content h3 { margin-bottom: 0.5rem; font-size: 1.5rem; }
+        .project-content p { color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.95rem; }
+
+        .project-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* --- SERVICES --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            padding: 3rem 2rem;
+            background: linear-gradient(145deg, #0f0f0f, #050505);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+        }
+
+        /* --- CONTACT --- */
+        .contact { padding: 10rem 0; }
+        .contact-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+        }
+
+        .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
+        .contact-form input, .contact-form textarea {
+            background: #151515;
+            border: 1px solid var(--border);
+            padding: 1.2rem;
+            border-radius: 12px;
+            color: white;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a { color: var(--text-dim); transition: var(--transition); }
+        .social-links a:hover { color: var(--accent); }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 992px) {
+            .hero-grid, .contact-box { grid-template-columns: 1fr; }
+            .hero-image-container { order: -1; margin-bottom: 3rem; }
+            .profile-card { width: 300px; height: 380px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav id="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">GREM<span>DEV</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#portfolio">Projects</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="https://wa.me/2349131778249" class="btn btn-secondary" style="padding: 0.6rem 1.2rem; font-size: 0.8rem;">Let's Chat</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="container hero-grid">
+            <div class="hero-content reveal">
+                <span style="color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; display: block; margin-bottom: 1rem;">Available for Freelance</span>
+                <h1>I Design & Build <span class="gradient-text">Modern Websites</span> That Convert.</h1>
+                <p>High-end web design and development for startups and brands who want to look world-class.</p>
+                <div class="hero-btns">
+                    <a href="#portfolio" class="btn btn-primary">View Work</a>
+                    <a href="#contact" class="btn btn-secondary">Hire Me</a>
+                </div>
+            </div>
+            <div class="hero-image-container reveal">
+                <div class="glow"></div>
+                <div class="profile-card">
+                    <!-- REPLACE WITH YOUR IMAGE URL -->
+                    <img src="Gremdev.jpg" alt="GREMDEV">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>The Developer</h2>
+                <div class="line"></div>
+            </div>
+            <p class="about-text reveal">
+                Passionate web developer & designer based in Ago Iwoye, Nigeria. I specialize in turning complex ideas into clean, fast, and high-converting digital experiences. 
+                My focus is on <strong>attention to detail</strong> and <strong>international standards</strong>.
+            </p>
+
+            <div class="skills-grid">
+                <div class="skill-item reveal"><i data-lucide="code"></i> <h4>HTML/CSS</h4></div>
+                <div class="skill-item reveal"><i data-lucide="zap"></i> <h4>JavaScript</h4></div>
+                <div class="skill-item reveal"><i data-lucide="layout"></i> <h4>UI/UX Design</h4></div>
+                <div class="skill-item reveal"><i data-lucide="smartphone"></i> <h4>Responsive</h4></div>
+                <div class="skill-item reveal"><i data-lucide="server"></i> <h4>Deployment</h4></div>
+                <div class="skill-item reveal"><i data-lucide="search"></i> <h4>SEO</h4></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PORTFOLIO SECTION -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Selected Work</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="project-grid">
+                <!-- Project 1 -->
+                <div class="project-card reveal">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?fit=crop&w=800&q=80" alt="Work 1">
+                    </div>
+                    <div class="project-content">
+                        <h3>GREMDEV Portfolio v1</h3>
+                        <p>Modern personal branding for high-end developers.</p>
+                        <a href="https://ancestorle.github.io/gremdev1/" class="project-link">View Live <i data-lucide="external-link" style="width: 18px;"></i></a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card reveal">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?fit=crop&w=800&q=80" alt="Work 2">
+                    </div>
+                    <div class="project-content">
+                        <h3>GREM Project</h3>
+                        <p>A clean, tech-driven interface for modern businesses.</p>
+                        <a href="https://ancestorle.github.io/Grem/" class="project-link">View Live <i data-lucide="external-link" style="width: 18px;"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="about" id="services" style="background: #080808;">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Services</h2>
+                <div class="line"></div>
+            </div>
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <i data-lucide="monitor" style="color: var(--accent); margin-bottom: 1.5rem;"></i>
+                    <h3>Web Design</h3>
+                    <p>Creating visually stunning, user-friendly layouts that capture your brand's essence.</p>
+                </div>
+                <div class="service-card reveal">
+                    <i data-lucide="code-2" style="color: var(--accent); margin-bottom: 1.5rem;"></i>
+                    <h3>Development</h3>
+                    <p>Clean code using modern technologies for fast, secure, and scalable websites.</p>
+                </div>
+                <div class="service-card reveal">
+                    <i data-lucide="rocket" style="color: var(--accent); margin-bottom: 1.5rem;"></i>
+                    <h3>Landing Pages</h3>
+                    <p>High-converting landing pages designed specifically to turn visitors into customers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-box reveal">
+                <div class="contact-info">
+                    <h2>Let’s build something <span class="gradient-text">legendary</span>.</h2>
+                    <p style="color: var(--text-dim); margin: 1.5rem 0 3rem;">Ready to upgrade your digital presence? Send a message or call directly.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i data-lucide="phone" style="color: var(--accent);"></i>
+                            <span>+234 913 177 8249</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i data-lucide="mail" style="color: var(--accent);"></i>
+                            <span>gremdev01@gmail.com</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i data-lucide="map-pin" style="color: var(--accent);"></i>
+                            <span>Ago Iwoye, Ogun State</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="contact-form">
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="email" placeholder="Email Address" required>
+                    <textarea placeholder="Tell me about your project..." rows="5" required></textarea>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#"><i data-lucide="github"></i></a>
+                <a href="#"><i data-lucide="twitter"></i></a>
+                <a href="#"><i data-lucide="linkedin"></i></a>
+                <a href="https://wa.me/2349131778249"><i data-lucide="phone"></i></a>
+            </div>
+            <p style="color: var(--text-dim); font-size: 0.9rem;">&copy; 2024 GREMDEV. Built for Excellence.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+        // Form Handling
+        const form = document.querySelector('.contact-form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Message Sent Successfully! GREMDEV will contact you shortly.');
+            form.reset();
+        });
+    </script>
+</body>
+</html>
