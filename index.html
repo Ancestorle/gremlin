@@ -64,6 +64,10 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .pics {
+            border-radius: 89px;
+            width: 100px;
+        }
 
         /* --- NAVIGATION --- */
         nav {
@@ -197,7 +201,7 @@
             transition: var(--transition);
         }
 
-        .profile-card img {
+        .profile-card .pic {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -289,14 +293,14 @@
             overflow: hidden;
         }
 
-        .project-img img {
+        .project-img .pic {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: var(--transition);
         }
 
-        .project-card:hover .project-img img { transform: scale(1.1); }
+        .project-card:hover .project-img .pic { transform: scale(1.1); }
 
         .project-content { padding: 2rem; }
         .project-content h3 { margin-bottom: 0.5rem; font-size: 1.5rem; }
@@ -385,6 +389,7 @@
     <nav id="navbar">
         <div class="container nav-content">
             <a href="#" class="logo">GREM<span>DEV</span></a>
+            <img class="pics" src="Log.jpg" alt="logo" >
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#portfolio">Projects</a></li>
@@ -411,7 +416,7 @@
                 <div class="glow"></div>
                 <div class="profile-card">
                     <!-- REPLACE WITH YOUR IMAGE URL -->
-                    <img src="Gremdev.jpg" alt="GREMDEV">
+                    <img class="pic" src="Gremdev.jpg" alt="GREMDEV">
                 </div>
             </div>
         </div>
